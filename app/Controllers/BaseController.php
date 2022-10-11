@@ -35,7 +35,7 @@ abstract class BaseController extends Controller
      *
      * @var array
      */
-    protected $helpers = [];
+    protected $helpers = ['session', 'form', 'formulate', 'file'];
 
     /**
      * Constructor.
@@ -44,6 +44,8 @@ abstract class BaseController extends Controller
     {
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
+
+        $this->data_to_views = [];
 
         // Preload any models, libraries, etc, here.
 
