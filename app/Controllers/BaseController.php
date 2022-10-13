@@ -9,6 +9,8 @@ use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
 
+use App\Models\PropertyModel;
+
 /**
  * Class BaseController
  *
@@ -35,7 +37,8 @@ abstract class BaseController extends Controller
      *
      * @var array
      */
-    protected $helpers = ['session', 'form', 'formulate', 'file'];
+    protected $helpers = ['session', 'form', 'formulate', 'filesystem'];
+    protected $property_model;
 
     /**
      * Constructor.
@@ -45,10 +48,13 @@ abstract class BaseController extends Controller
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
 
+        // set data_to_views as empty array
         $this->data_to_views = [];
-
-        // Preload any models, libraries, etc, here.
-
-        // E.g.: $this->session = \Config\Services::session();
+        // global property model
+        $this->property_model = model(PropertyModel::class);
+        $this->data_to_views['latest_properties_for_footer'] = $this->property_model->get_property_list(["latest" => 3]);
+        // create session
+        $this->session = \Config\Services::session();
     }
+    
 }

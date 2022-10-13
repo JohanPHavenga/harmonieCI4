@@ -14,8 +14,7 @@
 
                 <div class="content">
                     <?php
-                        array_pop($latest_properties);
-                        foreach ($latest_properties as $property_id=>$property) 
+                        foreach ($latest_properties_for_footer as $property_id=>$property) 
                         {
                             ?>
                             <div class="property">
@@ -91,7 +90,7 @@
                     </div><!-- /.title -->
                     <div class="content">
                         <?php
-                            echo form_open("/contact/mailer/footer");
+                            echo form_open(base_url("contact"));
                             //  Name
                             echo "<div class='control-group'>";
                             echo form_label('Name <span class="form-required" title="This field is required.">*</span>', 'inputContactName');

@@ -4,74 +4,74 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class LocationModel extends Model
+class TypeModel extends Model
 {
-    protected $table = 'locations';
+    protected $table = 'types';
 
     public function record_count()
     {
         return $this->db($this->table)->countAll;
     }
 
-    public function get_location_list()
+    public function get_type_list()
     {
         $builder = $this->db->table($this->table);
-        $builder->orderBy("location_name");
+        $builder->orderBy("type_name");
         $query = $builder->get();
 
         foreach ($query->getResultArray() as $row) {
-            $data[$row['location_id']] = $row;
+            $data[$row['type_id']] = $row;
         }
         return $data;
     }
 
-    public function get_location_dropdown()
+    public function get_type_dropdown()
     {
         $builder = $this->db->table($this->table);
-        $builder->select("location_id, location_name");
-        $builder->orderBy("location_name");
+        $builder->select("type_id, type_name");
+        $builder->orderBy("type_name");
         $query = $builder->get();
 
         $data[] = "Please Select";
         foreach ($query->getResultArray() as $row) {
-            $data[$row['location_id']] = $row['location_name'];
+            $data[$row['type_id']] = $row['type_name'];
         }
         return $data;
     }
 
-    public function get_location_detail($id)
+    public function get_type_detail($id)
     {
         if (!($id)) {
             return false;
         } else {
             $builder = $this->db->table($this->table);
-            $query = $builder->getWhere(['location_id' => $id]);
+            $query = $builder->getWhere(['type_id' => $id]);
 
             return $query->getResultArray();
         }
     }
 
-    public function set_location($action, $id, $location_data = [])
+    public function set_type($action, $id, $type_data = [])
     {
         // POSTED DATA
-        if (empty($location_data)) {
-            $location_data = array(
-                'location_name' => $_POST('location_name'),
+        if (empty($type_data)) {
+            $type_data = array(
+                'type_name' => $this->input->post('type_name'),
             );
         }
         $builder = $this->db->table($this->table);
 
         switch ($action) {
             case "add":
-                $builder->insert($location_data);
+                $builder->insert($type_data);
                 return true;
 
             case "edit":
                 // add updated date to both data arrays
-                $location_data['updated_date'] = date("Y-m-d H:i:s");
+                $type_data['updated_date'] = date("Y-m-d H:i:s");
 
                 // start SQL transaction                
-                $builder->update($location_data, array('location_id' => $id));
+                $builder->update($type_data, array('type_id' => $id));
                 return true;
 
             default:
@@ -81,13 +81,13 @@ class LocationModel extends Model
     }
 
 
-    public function remove_location($id)
+    public function remove_type($id)
     {
         $builder = $this->db->table($this->table);
         if (!($id)) {
             return false;
         } else {
-            $builder->delete(array('location_id' => $id));
+            $builder->delete(array('type_id' => $id));
             return true;
         }
     }

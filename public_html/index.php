@@ -27,10 +27,17 @@ chdir(FCPATH);
  * and fires up an environment-specific bootstrapping.
  */
 
-// Load our paths config file
-// This is the line that might need to be changed, depending on your folder structure.
-require FCPATH . '../app/Config/Paths.php';
-// ^^^ Change this line if you move your application folder
+$parts=explode("/",FCPATH);
+if (count($parts)>1) {
+    $pathsConfig="/usr/home/".$parts[4]."/app/Config/Paths.php";
+    // xneelo
+} else {
+    $pathsConfig = FCPATH . '../app/Config/Paths.php';
+    // local
+}
+// ^^^ Change this if you move your application folder
+
+require realpath($pathsConfig) ?: $pathsConfig;
 
 $paths = new Config\Paths();
 
@@ -63,5 +70,5 @@ $app->setContext($context);
  * Now that everything is setup, it's time to actually fire
  * up the engines and make this app do its thang.
  */
-
+ini_set("zlib.output_compression", 0);
 $app->run();

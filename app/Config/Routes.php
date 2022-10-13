@@ -36,7 +36,19 @@ $routes->set404Override();
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
+$routes->get('about', 'Home::about');
+$routes->get('contact', 'Contact::index');
+$routes->post('contact', 'Contact::index');
+
+$routes->post('property/search', 'Property::search');
+$routes->get('property/(:segment)', 'Property::grid/$1');
+$routes->post('property/(:segment)', 'Property::grid/$1');
 $routes->get('property/detail/(:segment)', 'Property::detail/$1');
+
+$routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'role:admin'], function($routes) {
+    $routes->get('/', 'Home::index');
+});
+
 
 /*
  * --------------------------------------------------------------------

@@ -24,8 +24,8 @@ if (isset($meta_description)) {
         <meta content="<?= $descrip; ?>" name="description" />
         <meta content="Johan Havenga" name="author" />
 
-        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700,300" rel="stylesheet" type="text/css">
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700" rel="stylesheet">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,300">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700">
         
         <link href="<?= base_url('assets/css/open-sans.css'); ?>" rel="stylesheet" type="text/css" />
 
@@ -47,7 +47,7 @@ if (isset($meta_description)) {
         <link rel="stylesheet" href="<?= base_url('assets/css/jquery.fancybox.min.css'); ?>" type="text/css" >  
         <link rel="stylesheet" href="<?= base_url('assets/css/justifiedGallery.min.css'); ?>" type="text/css" >  
         <link rel="stylesheet" href="<?= base_url('assets/css/custom.css'); ?>" type="text/css" >        
-        <link rel="stylesheet" href="#" type="text/css" id="color-variant">
+        <!-- <link rel="stylesheet" href="#" type="text/css" id="color-variant"> -->
 
         <?php
         // load extra CSS files from controller
@@ -133,7 +133,7 @@ if (isset($meta_description)) {
                                                     </div><!-- /.site-phone -->
                                                 </div><!-- /.info -->
 
-                                                <a class="btn btn-primary btn-large list-your-property arrow-right" href="<?=base_url();?>property/all">View all properties</a>
+                                                <a class="btn btn-primary btn-large list-your-property arrow-right" href="<?=base_url("property/all");?>">View all properties</a>
                                             </div><!-- /.row -->
                                         </div><!-- /.navbar-inner -->
                                     </div><!-- /.navbar -->
@@ -150,27 +150,16 @@ if (isset($meta_description)) {
 
                                     <ul class="nav">
                                         <li><a href="<?=base_url();?>" <?php if ($active_menu=="home") { echo "class='active'"; }?>>Home</a></li>
-<!--                                        <li class="menuparent">
-                                            <span class="menuparent nolink">Home Alternatives</span>
-                                            <ul>
-                                                <li><a href="index_1.html">Home with image</a></li>
-                                                <li><a href="index_2.html">Home with image 2</a></li>
-                                            </ul>
-                                        </li>-->
-                                        <!--<li><a href="<?=base_url('listing');?>" <?php if ($active_menu=="listing") { echo "class='active'"; }?>><b>Holiday Rental Listings</b></a></li>-->
-
-                                         <li class="menuparent">
+                                        <li class="menuparent">
                                              <span class="menuparent nolink <?php if ($active_menu=="property") { echo "active"; }?>"><b>Holiday Rental Listings</b></span>
                                             <ul>
                                                 <li><a href="<?=base_url('property/all');?>">View all properties</a></li>
                                                 <li><a href="<?=base_url('property/houses');?>">Houses to let</a></li>
                                                 <li><a href="<?=base_url('property/apartments');?>">Apartments to let</a></li>
-                                                <!--<li><a href="<?=base_url('property/list-my-property');?>">List your property</a></li>-->
                                             </ul>
                                         </li>
                                         </li>
                                         <li><a href="<?=base_url('about');?>" <?php if ($active_menu=="about") { echo "class='active'"; }?>>About Us</a></li>
-                                        <!--<li><a href="<?=base_url('faq');?>" <?php if ($active_menu=="faq") { echo "class='active'"; }?>>FAQ</a></li>-->
                                         <li><a href="<?=base_url('contact');?>" <?php if ($active_menu=="contact") { echo "class='active'"; }?>>Contact Us</a></li>
 
                                     </ul><!-- /.nav -->

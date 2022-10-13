@@ -41,6 +41,7 @@ class PropertyModel extends Model
     public function get_property_list($params = [])
     {
         $builder = $this->db->table($this->table);
+        $data=[];
 
         // ALL properties
         if (isset($params['all_prop'])) {
@@ -140,12 +141,16 @@ class PropertyModel extends Model
         foreach ($query->getResultArray() as $row) {
             $data[$row['property_id']] = $row;
         }
-        $keys = array_keys($data);
-        shuffle($keys);
-        foreach ($keys as $key) {
-            $shuffled_data[$key] = $data[$key];
+        if (isset($data)) {
+            $keys = array_keys($data);
+            shuffle($keys);
+            foreach ($keys as $key) {
+                $shuffled_data[$key] = $data[$key];
+            }
+            return $shuffled_data;
+        } else {
+            return false;
         }
-        return $shuffled_data;
     }
 
 
@@ -167,15 +172,13 @@ class PropertyModel extends Model
             return false;
         } else {
             $builder = $this->db->table($this->table);
-            $builder->join('locations', 'properties.location_id=locations.location_id', 'left');
-            $builder->join('types', 'types.type_id=types.type_id', 'left');
+            $builder->distinct();
+            $builder->join('locations', 'properties.location_id=locations.location_id');
+            $builder->join('types', 'types.type_id=types.type_id');
             $builder->where('property_code', $prop_code);
             $query = $builder->get();
 
-            foreach ($query->getResultArray() as $row) {
-                $data[$row['property_id']] = $row;
-            }
-            return $data;
+            return $query->getRowArray();
         }
     }
 
@@ -183,11 +186,13 @@ class PropertyModel extends Model
     {
         // POSTED DATA
         if (empty($property_data)) {
-            $property_data=$_POST;
+            $property_data = $_POST;
             // sit 0 voor getalle onder 10 in kode
             $code_arr = preg_split("/(,?\s+)|((?<=[a-z])(?=\d))|((?<=\d)(?=[a-z]))/i", $_POST['property_code']);
-            if ($code_arr[1]<10) { $code_arr[1]="0".$code_arr[1]; }
-            $code_search=implode("", $code_arr);
+            if ($code_arr[1] < 10) {
+                $code_arr[1] = "0" . $code_arr[1];
+            }
+            $code_search = implode("", $code_arr);
             $property_data['property_code_search'] = $code_search;
         }
 
@@ -223,9 +228,10 @@ class PropertyModel extends Model
         }
     }
 
-    public function get_property_list_data($params) {            
+    public function get_property_list_data($params)
+    {
         // field_arr is compulsary
-        $field_arr=$params['field_arr'];
+        $field_arr = $params['field_arr'];
         $builder = $this->db->table($this->table);
         $builder->select($field_arr);
         return $builder->get();
