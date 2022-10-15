@@ -37,7 +37,7 @@ abstract class BaseController extends Controller
      *
      * @var array
      */
-    protected $helpers = ['session', 'form', 'formulate', 'filesystem'];
+    protected $helpers = ['session', 'form', 'formulate', 'filesystem', 'auth'];
     protected $property_model;
 
     /**
@@ -54,7 +54,9 @@ abstract class BaseController extends Controller
         $this->property_model = model(PropertyModel::class);
         $this->data_to_views['latest_properties_for_footer'] = $this->property_model->get_property_list(["latest" => 3]);
         // create session
-        $this->session = \Config\Services::session();
+        $this->session = \Config\Services::session();       
+
+        
     }
     
 }

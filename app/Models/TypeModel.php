@@ -47,7 +47,7 @@ class TypeModel extends Model
             $builder = $this->db->table($this->table);
             $query = $builder->getWhere(['type_id' => $id]);
 
-            return $query->getResultArray();
+            return $query->getRowArray();
         }
     }
 
@@ -56,7 +56,7 @@ class TypeModel extends Model
         // POSTED DATA
         if (empty($type_data)) {
             $type_data = array(
-                'type_name' => $this->input->post('type_name'),
+                'type_name' => $_POST['type_name'],
             );
         }
         $builder = $this->db->table($this->table);
@@ -68,7 +68,7 @@ class TypeModel extends Model
 
             case "edit":
                 // add updated date to both data arrays
-                $type_data['updated_date'] = date("Y-m-d H:i:s");
+                // $type_data['updated_date'] = date("Y-m-d H:i:s");
 
                 // start SQL transaction                
                 $builder->update($type_data, array('type_id' => $id));

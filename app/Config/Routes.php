@@ -46,7 +46,22 @@ $routes->post('property/(:segment)', 'Property::grid/$1');
 $routes->get('property/detail/(:segment)', 'Property::detail/$1');
 
 $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'role:admin'], function($routes) {
-    $routes->get('/', 'Home::index');
+    $routes->get('/', 'Dashboard::view');
+    
+    $routes->get('property', 'Property::view');
+    $routes->get('property/create/(:any)', 'Property::create/$1');
+    $routes->post('property/create/(:any)', 'Property::create/$1');
+    $routes->get('property/delete/(:any)', 'Property::delete/$1');
+
+    $routes->get('location', 'Location::view');
+    $routes->get('location/create/(:any)', 'Location::create/$1');
+    $routes->post('location/create/(:any)', 'Location::create/$1');
+    $routes->get('location/delete/(:any)', 'Location::delete/$1');
+
+    $routes->get('type', 'Type::view');
+    $routes->get('type/create/(:any)', 'Type::create/$1');
+    $routes->post('type/create/(:any)', 'Type::create/$1');
+    $routes->get('type/delete/(:any)', 'Type::delete/$1');
 });
 
 

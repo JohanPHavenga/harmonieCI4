@@ -41,7 +41,7 @@ class PropertyModel extends Model
     public function get_property_list($params = [])
     {
         $builder = $this->db->table($this->table);
-        $data=[];
+        $data = [];
 
         // ALL properties
         if (isset($params['all_prop'])) {
@@ -162,7 +162,7 @@ class PropertyModel extends Model
             $builder = $this->db->table($this->table);
             $query = $builder->getWhere(['property_id' => $id]);
 
-            return $query->getResultArray();
+            return $query->getRowArray();
         }
     }
 
@@ -187,6 +187,18 @@ class PropertyModel extends Model
         // POSTED DATA
         if (empty($property_data)) {
             $property_data = $_POST;
+            unset($property_data['save_only']);
+            unset($property_data['files']);
+            if (isset($_POST['property_ispublished'])) {
+                $property_data['property_ispublished'] = true;
+            } else {
+                $property_data['property_ispublished'] = false;
+            }
+            if (isset($_POST['property_isfeatured'])) {
+                $property_data['property_isfeatured'] = true;
+            } else {
+                $property_data['property_isfeatured'] = false;
+            }
             // sit 0 voor getalle onder 10 in kode
             $code_arr = preg_split("/(,?\s+)|((?<=[a-z])(?=\d))|((?<=\d)(?=[a-z]))/i", $_POST['property_code']);
             if ($code_arr[1] < 10) {
@@ -201,15 +213,19 @@ class PropertyModel extends Model
         switch ($action) {
             case "add":
                 $builder->insert($property_data);
-                return true;
+                return $this->db->insertID();
 
             case "edit":
                 // add updated date to both data arrays
                 $property_data['updated_date'] = date("Y-m-d H:i:s");
 
+                $builder->set($property_data);
+                $builder->where('property_id', $id);
+                // dd($builder->getCompiledUpdate());
+                $builder->update();
                 // start SQL transaction                
                 $builder->update($property_data, array('property_id' => $id));
-                return true;
+                return $id;
 
             default:
                 throw new \Exception('Incorrect Action');

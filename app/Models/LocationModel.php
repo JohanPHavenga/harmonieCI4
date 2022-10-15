@@ -47,7 +47,7 @@ class LocationModel extends Model
             $builder = $this->db->table($this->table);
             $query = $builder->getWhere(['location_id' => $id]);
 
-            return $query->getResultArray();
+            return $query->getRowArray();
         }
     }
 
@@ -56,7 +56,7 @@ class LocationModel extends Model
         // POSTED DATA
         if (empty($location_data)) {
             $location_data = array(
-                'location_name' => $_POST('location_name'),
+                'location_name' => $_POST['location_name'],
             );
         }
         $builder = $this->db->table($this->table);

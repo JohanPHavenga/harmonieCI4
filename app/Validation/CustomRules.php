@@ -26,4 +26,12 @@ class CustomRules
             return FALSE;
         }
     }
+
+    public function strong_password($password)
+    {
+        if (preg_match('#[0-9]#', $password) && preg_match('#[a-zA-Z]#', $password)) {
+            return TRUE;
+        }
+        return FALSE;
+    }
 }
