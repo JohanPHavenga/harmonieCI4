@@ -36,6 +36,7 @@ $routes->set404Override();
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
+$routes->get('script/(:segment)', 'Script::$1');
 $routes->get('about', 'Home::about');
 $routes->get('contact', 'Contact::index');
 $routes->post('contact', 'Contact::index');
@@ -45,9 +46,9 @@ $routes->get('property/(:segment)', 'Property::grid/$1');
 $routes->post('property/(:segment)', 'Property::grid/$1');
 $routes->get('property/detail/(:segment)', 'Property::detail/$1');
 
-$routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'role:admin'], function($routes) {
+$routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'role:admin'], function ($routes) {
     $routes->get('/', 'Dashboard::view');
-    
+
     $routes->get('property', 'Property::view');
     $routes->get('property/create/(:any)', 'Property::create/$1');
     $routes->post('property/create/(:any)', 'Property::create/$1');
@@ -62,6 +63,11 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'ro
     $routes->get('type/create/(:any)', 'Type::create/$1');
     $routes->post('type/create/(:any)', 'Type::create/$1');
     $routes->get('type/delete/(:any)', 'Type::delete/$1');
+
+    $routes->get('user', 'User::view');
+    $routes->get('user/create/(:any)', 'User::create/$1');
+    $routes->post('user/create/(:any)', 'User::create/$1');
+    $routes->get('user/delete/(:any)', 'User::delete/$1');
 });
 
 
