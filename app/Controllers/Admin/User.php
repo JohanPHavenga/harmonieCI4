@@ -63,15 +63,15 @@ class User extends AdminController
 
     public function create($action, $id = 0)
     {
-
         // set data
         $this->data_to_views['title'] = ucfirst($action) . " Type";
         $this->data_to_views['action'] = $action;
         $this->data_to_views['form_url'] = base_url($this->create_url) . "/" . $action;
-
+        $this->data_to_views['roles'] = $this->user_model->get_roles();
 
         if ($action == "edit") {
             $this->data_to_views['user_detail'] = $this->user_model->get_user_detail($id);
+            $this->data_to_views['user_roles'] = $this->user_model->get_user_roles($id);
             $this->data_to_views['form_url'] = $this->create_url . "/" . $action . "/" . $id;
         }
 
@@ -86,9 +86,14 @@ class User extends AdminController
             $rules = [
                 'name' => ['label' => 'Name', 'rules' => 'required|min_length[2]'],
                 'surname' => ['label' => 'Surname', 'rules' => 'required|min_length[2]'],
-                'email' => ['label' => 'Email', 'rules' => 'required|valid_email|is_unique[users.email]'],
                 'username' => ['label' => 'Username', 'rules' => 'required|min_length[5]'],
+                'email' => ['label' => 'Email', 'rules' => 'required|valid_email'],
+                
             ];
+            if ($action=="add") {
+                $rules['email']['label'] = 'Email';
+                $rules['email']['rules'] = 'required|valid_email|is_unique[users.email]';
+            }
 
             if ($this->validate($rules)) {
                 $db_write = $this->user_model->set_user($action, $id);
