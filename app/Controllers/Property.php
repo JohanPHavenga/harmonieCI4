@@ -109,7 +109,7 @@ class Property extends BaseController
             $long=$gps_arr[1];
         
         // script to add gmaps to the page
-        $this->data_to_footer['scripts_to_display'][]="            
+        $this->data_to_views['scripts_to_display'][]="            
             var PageContact = function() {
             
                 var _init = function() {
