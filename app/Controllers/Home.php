@@ -23,7 +23,7 @@ class Home extends BaseController
         $this->data_to_views['latest_prop'] = view('templates/latest_prop', $lp_data);
         $this->data_to_views['scripts_to_load'] = array("assets/scripts/home.js",);
 
-        $numbers = range(1, 5);
+        $numbers = range(1, 6);
         shuffle($numbers);
         $this->data_to_views['home_img_num'] = $numbers;
 
